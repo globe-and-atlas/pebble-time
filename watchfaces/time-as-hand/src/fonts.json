@@ -1,0 +1,62 @@
+[
+  {
+    "id": 0,
+    "group": "Pixel",
+    "name": "Grid"
+  },
+  {
+    "id": 1,
+    "group": "Pixel",
+    "name": "Block"
+  },
+  {
+    "id": 2,
+    "group": "Pixel",
+    "name": "Compact"
+  },
+  {
+    "id": 3,
+    "group": "Retro",
+    "name": "LCD"
+  },
+  {
+    "id": 4,
+    "group": "Retro",
+    "name": "Arcade"
+  },
+  {
+    "id": 5,
+    "group": "Retro",
+    "name": "Terminal"
+  },
+  {
+    "id": 6,
+    "group": "Modern",
+    "name": "Mono"
+  },
+  {
+    "id": 7,
+    "group": "Modern",
+    "name": "Slim"
+  },
+  {
+    "id": 8,
+    "group": "Modern",
+    "name": "Stencil"
+  },
+  {
+    "id": 9,
+    "group": "Classic",
+    "name": "Serif"
+  },
+  {
+    "id": 10,
+    "group": "Classic",
+    "name": "Slab"
+  },
+  {
+    "id": 11,
+    "group": "Classic",
+    "name": "Engraved"
+  }
+]
