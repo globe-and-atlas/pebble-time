@@ -8,8 +8,8 @@ Globe & Atlas projects for Pebble watches. Each watch project lives in its own r
 
 | Project | Repository | Open in CloudPebble |
 | --- | --- | --- |
-| Time at Hand: Original, Two Hands, Meridian, Clear and Four Points watchfaces | [globe-and-atlas/time-at-hand](https://github.com/globe-and-atlas/time-at-hand) | [Import](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/time-at-hand) |
-| Personal Atlas: your day mapped minute by minute | [globe-and-atlas/personal-atlas](https://github.com/globe-and-atlas/personal-atlas) | [Import](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/personal-atlas) |
+| Time at Hand: Original, Two Hands, Meridian, Clear and Four Points watchfaces | [globe-and-atlas/time-at-hand](https://github.com/globe-and-atlas/time-at-hand) | [Original](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/time-at-hand/main); other editions in its [README](https://github.com/globe-and-atlas/time-at-hand#cloudpebble) |
+| Personal Atlas: your day mapped minute by minute | [globe-and-atlas/personal-atlas](https://github.com/globe-and-atlas/personal-atlas) | [Import](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/personal-atlas/main) |
 
 - [Watch apps](watchapps/README.md): future Pebble applications.
 
