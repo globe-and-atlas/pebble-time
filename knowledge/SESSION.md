@@ -12,3 +12,7 @@ Source: watchfaces/time-as-hand; future apps: watchapps.
 Validation:122 files hash-verified before intentional README path update;71,936 renderer frames and phone-location tests pass. Independent migration review approved.
 Original working checkout remains intact and serves the existing preview. Use this new checkout for future Pebble work. Earlier mistaken pebbletime scaffold in globe-and-atlas remains untouched.
 Closing audit: requested GitHub repository now stores current work; no destructive move was needed.
+
+## Checkpoint Log
+
+- 2026-09-24 07:33 — commit: Record completed repository migration | knowledge/SESSION.md,task.md
