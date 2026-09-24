@@ -1,7 +1,0 @@
-{
-  "profile": "dashboard-static",
-  "deploy": "local-only",
-  "runtime": "static",
-  "loop_mode": "artifact",
-  "knowledge_level": "standard"
-}
