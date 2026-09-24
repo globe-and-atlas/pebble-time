@@ -18,3 +18,4 @@ Closing audit: requested GitHub repository now stores current work; no destructi
 - 2026-09-24 07:33 — commit: Record completed repository migration | knowledge/SESSION.md,task.md
 - 2026-09-24 10:48 — commit: Become an index: watch projects move to their own CloudPebble-importable repos | README.md,directives/import_watchfaces.md,watchfaces/time-as-hand/.editorconfig,watchfaces/time-as-hand/.git-hooks/pre-commit,watchfaces/time-as-hand/.gitignore
 - 2026-09-24 11:04 — commit: CloudPebble links name the branch; point to per-edition links | README.md
+- 2026-09-24 17:26 — commit: Update watchface series names in catalog | README.md,knowledge/SESSION.md
