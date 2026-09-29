@@ -1,0 +1,11 @@
+{
+  "name": "facet-atlas-devtools",
+  "private": true,
+  "description": "Lint and type-check tooling. Kept out of the Pebble project's package.json so `pebble build` never installs it.",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "typescript": "^5.6.0"
+  }
+}

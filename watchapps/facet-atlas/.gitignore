@@ -1,0 +1,11 @@
+# Pebble and host build outputs
+build/
+node_modules/
+tools/dev/node_modules/
+*.pbw
+# Local-only data: real-place tiles, previews, captures in progress
+*.fat
+/tmp/
+.env
+.DS_Store
+__pycache__/

@@ -10,6 +10,7 @@ Globe & Atlas projects for Pebble watches. Each watch project lives in its own r
 | --- | --- | --- |
 | Time at Hand 0.1.1: Origin, Vector, Meridian, Cardinal and Clarity watchfaces | [globe-and-atlas/time-at-hand](https://github.com/globe-and-atlas/time-at-hand) | [Origin](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/time-at-hand/main); other editions in its [README](https://github.com/globe-and-atlas/time-at-hand#cloudpebble) |
 | Personal Atlas: your day mapped minute by minute | [globe-and-atlas/personal-atlas](https://github.com/globe-and-atlas/personal-atlas) | [Import](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/personal-atlas/main) |
+| Facet Atlas: satellite, simplified TIN, slope and profile of a chosen place (Pebble Time 2, in development) | [watchapps/facet-atlas](watchapps/facet-atlas) here until `globe-and-atlas/facet-atlas` exists | not yet: needs its own repository |
 
 - [Watch apps](watchapps/README.md): future Pebble applications.
 

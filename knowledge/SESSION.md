@@ -3,6 +3,10 @@ generated_by: "OpenAI Codex (GPT-6)"
 timestamp: "2026-09-24T12:30:05.953903+00:00"
 ---
 # Last Known State
+
+2026-09-29 (Claude Code): Facet Atlas built in watchapps/facet-atlas on branch claude/gallant-babbage-rwo6md. Host checks green (`make check`). Open: own repository (403), Pebble SDK build and emulator captures (SDK host blocked). See watchapps/facet-atlas/docs/VALIDATION.md.
+
+Previous state:
 Agent: OpenAI Codex
 Handoff-from: none
 Handoff-type: new-project

@@ -1,0 +1,25 @@
+{
+  "name": "facet-atlas",
+  "author": "Globe & Atlas",
+  "version": "0.1.0",
+  "description": "Explore the shape of a chosen place on Pebble Time 2: satellite context, simplified TIN, slope and elevation profile, with explicit data provenance.",
+  "license": "MIT",
+  "private": true,
+  "keywords": ["pebble-app"],
+  "dependencies": {},
+  "pebble": {
+    "displayName": "Facet Atlas",
+    "uuid": "f08b5538-2ff5-4ef6-b50f-753b687f0960",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": ["emery"],
+    "watchapp": {
+      "watchface": false
+    },
+    "capabilities": ["configurable", "location"],
+    "messageKeys": ["cmd", "site", "index", "count", "offset", "total", "crc", "data", "status", "exag", "text", "chunk"],
+    "resources": {
+      "media": []
+    }
+  }
+}

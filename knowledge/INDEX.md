@@ -14,3 +14,4 @@ timestamp: "2026-09-24T12:30:55.333289+00:00"
 Add domain or procedural files as real knowledge emerges.
 
 | [procedural/import.md](procedural/import.md) | procedural | 2026-09-24: snapshot import, exclusions and SHA-256 verification |
+| [../watchapps/facet-atlas/docs/DATA_SOURCES.md](../watchapps/facet-atlas/docs/DATA_SOURCES.md) | domain | 2026-09-29: verified facts about Copernicus DEM GLO-30 and Sentinel-2 COG buckets |
