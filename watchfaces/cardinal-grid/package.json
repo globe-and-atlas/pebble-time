@@ -1,0 +1,34 @@
+{
+  "name": "cardinal-grid",
+  "author": "Daniel Bally",
+  "version": "0.1.0",
+  "keywords": [
+    "pebble-app"
+  ],
+  "private": true,
+  "dependencies": {
+    "@rebble/clay": "1.1.0"
+  },
+  "pebble": {
+    "displayName": "Cardinal Grid",
+    "uuid": "6ec4de41-4914-4f19-b363-3172dbb5f560",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "capabilities": [
+      "configurable"
+    ],
+    "targetPlatforms": [
+      "emery"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "Setting_HourMode",
+      "Setting_TimeColor"
+    ],
+    "resources": {
+      "media": []
+    }
+  }
+}

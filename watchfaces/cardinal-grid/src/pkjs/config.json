@@ -1,0 +1,47 @@
+[
+  {
+    "type": "heading",
+    "defaultValue": "Cardinal Grid"
+  },
+  {
+    "type": "section",
+    "items": [
+      {
+        "type": "heading",
+        "defaultValue": "Time"
+      },
+      {
+        "type": "select",
+        "messageKey": "Setting_HourMode",
+        "label": "Clock",
+        "defaultValue": "0",
+        "options": [
+          {
+            "label": "Follow the watch setting",
+            "value": "0"
+          },
+          {
+            "label": "12-hour",
+            "value": "1"
+          },
+          {
+            "label": "24-hour",
+            "value": "2"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "messageKey": "Setting_TimeColor",
+        "label": "Time digits colour",
+        "defaultValue": "FFFFFF",
+        "sunlight": false,
+        "allowGray": true
+      }
+    ]
+  },
+  {
+    "type": "submit",
+    "defaultValue": "Save"
+  }
+]

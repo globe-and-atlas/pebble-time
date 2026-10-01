@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""Generate src/c/map_geometry/terrain_data.h: a small deterministic synthetic TIN.
+
+The terrain is a made-up island and headland, not a real place. It is built once, here,
+so the watch never has to: vertices, a Delaunay triangulation, unique edges, a
+hillshade classification per triangle and a ridge polyline. The sea-level coastline is
+NOT stored; the firmware contours the TIN at init (map_geometry.c), and this script
+computes the expected segment count so the host tests can cross-check the C code.
+
+Coordinates are quarter pixels (1/4 px), x = east, y = north, centred on the instrument.
+
+    python3 tools/gen_terrain.py            # rewrite the header
+    python3 tools/gen_terrain.py --check    # fail if the header is stale
+"""
+import math
+import random
+import sys
+from pathlib import Path
+
+import numpy as np
+from scipy.spatial import Delaunay
+
+SEED = 0x47415A          # "GAZ": arbitrary but fixed
+SEA_LEVEL = 0            # metres
+MAP_R = 62.0             # vertices stay inside this pixel radius (firmware clips at 66)
+OUT = Path(__file__).resolve().parent.parent / "src/c/map_geometry/terrain_data.h"
+
+
+def height(x, y, rng):
+    """Smooth field: a headland with a high point, a small island, open sea to the SW."""
+    z = -60.0
+    z += 250.0 * math.exp(-((x - 20) ** 2 + (y - 18) ** 2) / (2 * 30.0 ** 2))
+    z += 95.0 * math.exp(-((x + 36) ** 2 + (y + 30) ** 2) / (2 * 13.0 ** 2))
+    z += 55.0 * math.exp(-((x - 8) ** 2 + (y + 46) ** 2) / (2 * 10.0 ** 2))
+    return z + rng.uniform(-14, 14)
+
+
+def make_vertices(rng):
+    pts = []
+
+    def ring(n, radius, jitter_r, jitter_a):
+        for i in range(n):
+            a = 2 * math.pi * (i + rng.uniform(-jitter_a, jitter_a)) / n
+            r = radius + rng.uniform(-jitter_r, jitter_r)
+            pts.append((r * math.cos(a), r * math.sin(a)))
+
+    ring(11, 58, 4, 0.22)
+    ring(9, 37, 5, 0.25)
+    ring(5, 17, 3, 0.30)
+    pts.append((rng.uniform(-3, 3), rng.uniform(-3, 3)))
+    return [p for p in pts if math.hypot(*p) <= MAP_R]
+
+
+def crossing_segments(tris, v, z, sea):
+    """Marching triangles at `sea`. Mirrors map_geometry.c so the counts can be compared."""
+    n = 0
+    for a, b, c in tris:
+        above = [z[i] > sea for i in (a, b, c)]
+        if all(above) or not any(above):
+            continue
+        n += 1
+    return n
+
+
+def main():
+    rng = random.Random(SEED)
+    verts = make_vertices(rng)
+    z = [int(round(height(x, y, rng))) for x, y in verts]
+    tri = Delaunay(np.array(verts))
+    tris = [tuple(int(i) for i in t) for t in tri.simplices]
+
+    # Counter-clockwise winding in a y-up frame, so the shading normal points up.
+    fixed = []
+    for a, b, c in tris:
+        (ax, ay), (bx, by), (cx, cy) = verts[a], verts[b], verts[c]
+        cross = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax)
+        fixed.append((a, b, c) if cross > 0 else (a, c, b))
+    tris = fixed
+
+    edges = sorted({tuple(sorted(e)) for a, b, c in tris for e in ((a, b), (b, c), (c, a))})
+
+    # Hillshade, sun from the north-west, 45 degrees up. Only lit LAND facets are filled,
+    # which keeps the fill sparse: a few muted facets, not a painted surface.
+    az, alt = math.radians(315), math.radians(45)
+    sun = (math.sin(az) * math.cos(alt), math.cos(az) * math.cos(alt), math.sin(alt))
+    exaggeration = 0.55
+    fill = []
+    for a, b, c in tris:
+        pa, pb, pc = (verts[i] + (z[i] * exaggeration,) for i in (a, b, c))
+        u = [pb[k] - pa[k] for k in range(3)]
+        w = [pc[k] - pa[k] for k in range(3)]
+        n = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]]
+        norm = math.sqrt(sum(k * k for k in n)) or 1.0
+        lit = sum(n[k] * sun[k] for k in range(3)) / norm
+        land = min(z[a], z[b], z[c]) > SEA_LEVEL
+        fill.append(1 if (land and lit > 0.88) else 0)
+
+    # Ridge polyline: greedy walk along the highest unvisited neighbours from the summit.
+    nbrs = {i: set() for i in range(len(verts))}
+    for a, b in edges:
+        nbrs[a].add(b)
+        nbrs[b].add(a)
+    cur = max(range(len(verts)), key=lambda i: z[i])
+    ridge, seen = [cur], {cur}
+    while len(ridge) < 8:
+        options = [j for j in nbrs[cur] if j not in seen and z[j] > SEA_LEVEL]
+        if not options:
+            break
+        cur = max(options, key=lambda j: z[j])
+        ridge.append(cur)
+        seen.add(cur)
+
+    segs = crossing_segments(tris, verts, z, SEA_LEVEL)
+
+    def arr(name, ctype, vals, per_line=12):
+        rows = [", ".join(str(x) for x in vals[i:i + per_line]) for i in range(0, len(vals), per_line)]
+        return "static const %s %s[%d] = {\n  %s\n};\n" % (ctype, name, len(vals), ",\n  ".join(rows))
+
+    def arr2(name, ctype, vals, width):
+        rows = ["{%s}" % ", ".join(str(x) for x in v) for v in vals]
+        return "static const %s %s[%d][%d] = {\n  %s\n};\n" % (ctype, name, len(vals), width, ",\n  ".join(rows))
+
+    text = (
+        "#pragma once\n"
+        "/* GENERATED by tools/gen_terrain.py (seed 0x%X). Do not edit by hand.\n"
+        " * Synthetic terrain, not a real place. Coordinates are quarter pixels: x east, y north. */\n"
+        "#include <stdint.h>\n\n"
+        "#define MG_NV %d\n#define MG_NT %d\n#define MG_NE %d\n#define MG_NRIDGE %d\n"
+        "#define MG_SEA_LEVEL_M %d\n#define MG_EXPECT_SEGS %d\n\n"
+        % (SEED, len(verts), len(tris), len(edges), len(ridge), SEA_LEVEL, segs)
+        + "/* The tables are defined in exactly one translation unit (map_geometry.c defines\n"
+        "   MG_TERRAIN_DEFINE before including this file); everyone else just gets the counts. */\n"
+        "#ifdef MG_TERRAIN_DEFINE\n\n"
+        + arr("mg_vx4", "int16_t", [int(round(p[0] * 4)) for p in verts])
+        + arr("mg_vy4", "int16_t", [int(round(p[1] * 4)) for p in verts])
+        + arr("mg_vz", "int16_t", z)
+        + arr2("mg_tri", "uint8_t", tris, 3)
+        + arr("mg_tri_fill", "uint8_t", fill, 24)
+        + arr2("mg_edge", "uint8_t", edges, 2)
+        + arr("mg_ridge", "uint8_t", ridge)
+        + "\n#endif /* MG_TERRAIN_DEFINE */\n"
+    )
+
+    if "--check" in sys.argv:
+        if not OUT.exists() or OUT.read_text() != text:
+            sys.exit("terrain_data.h is stale: run tools/gen_terrain.py")
+        print("terrain_data.h is current")
+        return
+    OUT.write_text(text)
+    print("wrote %s: %d vertices, %d triangles, %d edges, %d fills, ridge %d, coast segments %d"
+          % (OUT.name, len(verts), len(tris), len(edges), sum(fill), len(ridge), segs))
+
+
+if __name__ == "__main__":
+    main()

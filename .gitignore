@@ -50,3 +50,4 @@ build/
 .codex/
 .env.*
 !.env.example
+watchfaces/*.tar.gz

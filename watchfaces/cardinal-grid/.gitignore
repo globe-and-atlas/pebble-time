@@ -1,0 +1,4 @@
+build/
+test/host/build/
+__pycache__/
+.lock-waf_*
