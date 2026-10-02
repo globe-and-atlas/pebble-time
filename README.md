@@ -12,5 +12,6 @@ Globe & Atlas projects for Pebble watches. Each watch project lives in its own r
 | Personal Atlas: your day mapped minute by minute | [globe-and-atlas/personal-atlas](https://github.com/globe-and-atlas/personal-atlas) | [Import](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/personal-atlas/main) |
 
 - [Watch apps](watchapps/README.md): future Pebble applications.
+- [GNSS Sky](gnss-sky/README.md): an Apple Watch (watchOS) sky plot of predicted GNSS satellites. This is not a Pebble project. It lives here until it gets its own repository; `gnss-sky/` is self-contained so it can move unchanged.
 
 On 2026-09-24 the imported copy of Time as Hand that used to live in `watchfaces/time-as-hand/` moved to its own repository, now named time-at-hand. Its history is in this repository's earlier commits and in time-at-hand.
