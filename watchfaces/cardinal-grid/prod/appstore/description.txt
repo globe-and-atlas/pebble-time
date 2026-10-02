@@ -1,0 +1,7 @@
+Cardinal Grid is a small cartographic orientation instrument for your wrist: range rings, radial grid lines, N/E/S/W, a fixed heading pointer and a level bubble over a contoured map. Turn your wrist and the geographic frame stays put while the watch turns beneath it.
+
+The time sits in the upper left; the upper right says exactly what the compass knows: MAG with a bearing when calibrated, CAL while it is still calibrating, and NO MAG when the magnetometer is unavailable. Nothing is drawn as if it were known when it isn't.
+
+Tap the watch to set the current heading as a reference (the ring flashes amber); tap twice to clear it. The centre dot is a bubble level.
+
+Settings: clock format (follow the watch, 12-hour or 24-hour) and the colour of the time digits.

@@ -1,0 +1,1 @@
+First release. Compass-locked grid with range rings, contoured map, level bubble and tap-to-set reference heading. Settings for clock format (follow the watch, 12-hour or 24-hour) and time digits colour.
